@@ -1,5 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/discovery_page.dart';
 import 'package:my_app/menu.dart';
+
+import 'discovery_place.dart';
 
 class DiscoveryEvents extends StatelessWidget {
   const DiscoveryEvents({super.key});
@@ -8,12 +12,13 @@ class DiscoveryEvents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: const [
-          Header(),
+        children: [
+          const Header(),
           Expanded(child: ShowPopularView()),
-          SelectionLocate(),
-          Expanded(child: ShowLocation()),
-          Footer(),
+          const SelectionLocate(),
+          const Expanded(child: ShowLocation()),
+          // SearchButton(),
+          const Footer(),
         ],
       ),
     );
@@ -84,18 +89,21 @@ class Header extends StatelessWidget {
                   child: const Text("Places")),
             ),
             const Spacer(),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const Menu();
-                      },
-                    ),
-                  );
-                },
-                child: const Text("Menu")),
+            Padding(
+              padding: const EdgeInsets.only(top: 10.0, right: 10.0),
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const Menu();
+                        },
+                      ),
+                    );
+                  },
+                  child: const Text("Menu")),
+            ),
           ],
         ),
       ],
@@ -104,7 +112,13 @@ class Header extends StatelessWidget {
 }
 
 class ShowPopularView extends StatelessWidget {
-  const ShowPopularView({super.key});
+  ShowPopularView({super.key});
+
+  var items = [
+    "https://i.ytimg.com/vi/ZzSG6l3jzk0/maxresdefault.jpg",
+    "https://cdn.zipeventapp.com/blog/2022/06/2022-06-19_16-24-45_zip-zommarie-concert-01.png",
+    "https://images.workpointnews.com/workpointnews/2022/08/31162545/1661937942_58155_NON.png",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -121,25 +135,65 @@ class ShowPopularView extends StatelessWidget {
             ],
           ),
         ),
-        Expanded(
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              Expanded(
-                child: Image.network(
-                    "https://cdn.britannica.com/49/161649-050-3F458ECF/Bernese-mountain-dog-grass.jpg?q=60"),
-              ),
-              Expanded(
-                child: Image.network(
-                    "https://www.rover.com/blog/wp-content/uploads/2019/01/6342530545_45ec8696c8_b.jpg"),
-              ),
-              Expanded(
-                child: Image.network(
-                    "https://www.scotsman.com/webimg/b25lY21zOjVhYjFhNjYyLWVjZTAtNDhhNC1hYWQ0LTFiMTIxYTI5MDZjZDoyOTFlMWE0ZC1iNTEwLTQ0NmMtYWM0Zi1hNDQxNzYzZmM5ZDQ=.jpg?crop=61:45,smart&width=800"),
-              ),
-            ],
+        CarouselSlider(
+          options: CarouselOptions(
+            height: 180.0,
+            viewportFraction: 1,
           ),
+          items: items.map((i) {
+            return Builder(
+              builder: (BuildContext context) {
+                return InkWell(
+                  child: Image.network(i),
+                  onTap: () => {
+                    if (items.indexOf(i) == 0)
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const DiscoveryPage();
+                            },
+                          ),
+                        ),
+                      }
+                    else if (items.indexOf(i) == 1)
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const DiscoveryPlace();
+                            },
+                          ),
+                        ),
+                      }
+                  },
+                );
+              },
+            );
+          }).toList(),
         ),
+
+        // Expanded(
+        //   child: ListView(
+        //     scrollDirection: Axis.horizontal,
+        //     children: [
+        //       Expanded(
+        //         child: Image.network(
+        //             "https://i.ytimg.com/vi/ZzSG6l3jzk0/maxresdefault.jpg"),
+        //       ),
+        //       Expanded(
+        //         child: Image.network(
+        //             "https://cdn.zipeventapp.com/blog/2022/06/2022-06-19_16-24-45_zip-zommarie-concert-01.png"),
+        //       ),
+        //       Expanded(
+        //         child: Image.network(
+        //             "https://images.workpointnews.com/workpointnews/2022/08/31162545/1661937942_58155_NON.png"),
+        //       ),
+        //     ],
+        //   ),
+        // ),
       ],
     );
   }
@@ -174,28 +228,109 @@ class ShowLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              Expanded(
-                  child: Image.network(
-                      "https://www.akc.org/wp-content/uploads/2021/09/Finnish-Lapphund-shutterstock_1038964219.jpg")),
-              Expanded(
-                  child: Image.network(
-                      "https://www.fourpaws.com/-/media/Project/OneWeb/FourPaws/Images/articles/family-matters/puppy-prep-cheat-sheet/puppy-australian-shepherd-running.jpg")),
-              Expanded(
-                  child: Image.network(
-                      "https://vitapet.com/media/sz1czkya/benefits-of-getting-a-puppy-900x600.jpg?anchor=center&mode=crop&width=1240&rnd=132503927246630000")),
-            ],
-          ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            const SizedBox(width: 10),
+            SizedBox(
+              width: 156,
+              height: 156,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Image.network(
+                        "https://img.freepik.com/premium-photo/concert-crowd-music-fanclub-hand-using-cellphone-taking-video-record-live-stream_41418-3380.jpg?w=2000"),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text(
+                      "Cocktail Concert",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      "0.3 km",
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 18),
+            Container(
+              width: 156,
+              height: 156,
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Image.network(
+                        "https://edmmaniac.com/wp-content/uploads/2020/12/decibeloa19_stage.jpg"),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text("EDM Night x DJ Ice",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text("1.6 km"),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 18),
+            SizedBox(
+              width: 156,
+              height: 156,
+              child: Column(
+                children: [
+                  Expanded(
+                      child: Image.network(
+                          "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1")),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text("Dance...",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 10),
+                    child: Text("3.2 km"),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
+
+// class SearchButton extends StatefulWidget {
+//   @override
+//   _SearchState createState() => _SearchState();
+// }
+//
+// class _SearchState extends State<SearchButton> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Container(),
+//       bottomNavigationBar: BottomNavigationBar(
+//         items: const[
+//           BottomNavigationBarItem(
+//             icon: Icon(Icons.search),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class Footer extends StatelessWidget {
   const Footer({super.key});

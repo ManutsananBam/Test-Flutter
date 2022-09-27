@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/discovery_events.dart';
+import 'package:my_app/discovery_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -83,7 +83,7 @@ class _Login extends State<Login> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return const DiscoveryEvents();
+                              return const DiscoveryScreen();
                             },
                           ),
                         );

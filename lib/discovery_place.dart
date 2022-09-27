@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/discovery_events.dart';
+import 'package:my_app/discovery_screen.dart';
 import 'package:my_app/discovery_page.dart';
 import 'package:my_app/menu.dart';
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/discovery_events.dart';
+import 'package:my_app/discovery_all_place.dart';
+import 'package:my_app/discovery_screen.dart';
 import 'package:my_app/discovery_place.dart';
 import 'package:my_app/discovery_page.dart';
 
@@ -17,7 +18,7 @@ class Menu extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      return const DiscoveryEvents();
+                      return const DiscoveryScreen();
                     },
                   ),
                 );
@@ -47,6 +48,18 @@ class Menu extends StatelessWidget {
                 );
               },
               child: const Text("Page")),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const DiscoveryAllPlace();
+                    },
+                  ),
+                );
+              },
+              child: const Text("All Places")),
         ],
       ),
     );
